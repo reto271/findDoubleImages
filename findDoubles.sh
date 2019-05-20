@@ -46,7 +46,7 @@ while read FILE ; do
     PIC_SIZE=$(identify -format "%wx%h\n" "${FILE}")
     #echo "PIC_SIZE: ${PIC_SIZE}"
 
-    echo "${FILENAME} # ${ACTUAL_FILE_SIZE} # ${PIC_SIZE} # ${FILE}" | tee -a ${FILE_INFO_LIST}
+    echo "${ACTUAL_FILE_SIZE} # ${PIC_SIZE} # ${FILENAME} # ${FILE}" | tee -a ${FILE_INFO_LIST}
 done < ${FILE_LIST}
 
 popd > /dev/null
