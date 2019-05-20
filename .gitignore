@@ -1,2 +1,6 @@
+# Ignore file for git project findDoubleImages
 
+# directories
 out_dir/
+
+# files
