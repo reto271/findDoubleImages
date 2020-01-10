@@ -1,4 +1,4 @@
-#!/bin/bash
+ll#!/bin/bash
 
 # Change to the script dir
 pushd . > /dev/null
@@ -17,8 +17,8 @@ cat fileList02.txt | \
     grep -v "SYNOPHOTO:THUMB_S.jpg" > fileList03_noSyno.txt
 
 # fileList04 manually deleted some pics
-
-cat fileList04_manual.txt | grep -v "@eaDir" > fileList05.txt
+# cat fileList04_manual.txt | grep -v "@eaDir" > fileList05.txt
+cat fileList03_noSyno.txt | grep -v "@eaDir" > fileList05.txt
 
 #
 
