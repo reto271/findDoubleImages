@@ -1,4 +1,4 @@
-ll#!/bin/bash
+#!/bin/bash
 
 # Change to the script dir
 pushd . > /dev/null
