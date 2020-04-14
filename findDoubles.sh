@@ -19,26 +19,26 @@ pushd . > /dev/null
 ScriptDirectory=$(dirname $0)
 cd "$ScriptDirectory"
 
-# Parameter handling
+echo "--- Parameter handling"
 if [ 1 -eq $# ] ; then
     SEARCH_PATH=$1
 fi
 
-# Cleanup and prepare
+echo "--- Cleanup and prepare"
 rm -rf  ${OUT_DIR}
 mkdir -p ${OUT_DIR}
 
-# Find all jpg and jpeg
+echo "--- Find all jpg and jpeg"
 find ${SEARCH_PATH} -iname "*.jpeg" > ${FILE_LIST}
 find ${SEARCH_PATH} -iname "*.jpg" >> ${FILE_LIST}
 
-# Remove pics out of scope, e.g. e-mail box
+echo "--- Remove pics out of scope, e.g. e-mail box"
 cat "${FILE_LIST}" | grep -v "/volume1/Reto/Mail/V2/" | grep -v "/volume1/zbkMac_01/mailBackup" > ${FILE_LIST}.2
 mv ${FILE_LIST}.2 ${FILE_LIST}
 
-# Loop and determine size and properties
+echo "--- Loop and determine size and properties"
 while read FILE ; do
-    echo "File: ${FILE}"
+    #echo "File: ${FILE}"
     FILENAME=$(basename -- "${FILE}")
     ACTUAL_FILE_SIZE=$(du -b "${FILE}" | cut -f 1)
     #echo "ACTUAL_FILE_SIZE: ${ACTUAL_FILE_SIZE}"
@@ -46,7 +46,9 @@ while read FILE ; do
     PIC_SIZE=$(identify -format "%wx%h\n" "${FILE}")
     #echo "PIC_SIZE: ${PIC_SIZE}"
 
-    echo "${ACTUAL_FILE_SIZE} # ${PIC_SIZE} # ${FILENAME} # ${FILE}" | tee -a ${FILE_INFO_LIST}
+    echo "${ACTUAL_FILE_SIZE} # ${PIC_SIZE} # ${FILENAME} # ${FILE}" >> ${FILE_INFO_LIST}
 done < ${FILE_LIST}
+
+echo "--- done"
 
 popd > /dev/null
