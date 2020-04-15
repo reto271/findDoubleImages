@@ -2,5 +2,7 @@
 
 # directories
 out_dir/
+results/
+temp/
 
 # files
