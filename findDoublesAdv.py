@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
+import os
 from PIL import Image
-
+from PIL.ExifTags import TAGS
 
 
 def get_exif(filename):
@@ -9,9 +10,31 @@ def get_exif(filename):
     image.verify()
     return image._getexif()
 
-# exif = get_exif('sampleImg/P1010012_Panasonic.JPG')
-# exif = get_exif('sampleImg/DSC_0157_NikonD5100.JPG')
-# print(exif)
+def get_labeled_exif(fileName):
+    labeled = {}
+
+    exif = get_exif(fileName)
+    val = dir(exif)
+#    print(val)
+
+    image = Image.open(fileName)
+    exif_info = image._getexif()
+    if exif_info is None:
+        print("No info!!!!!!!")
+    else:
+        for tag, value in exif_info.items():
+            #print(tag, value)
+            #labeled[TAGS.get(tag)] = value
+            #print(str(TAGS.get(tag)) + ' ::: ' + str(value))
+            if ('Model' == TAGS.get(tag)) :
+                print('  Model: ' + str(value))
+
+
+#    for (key, val) in exif.items():
+#        labeled[TAGS.get(key)] = val
+#
+    return labeled
+
 
 
 
@@ -25,8 +48,15 @@ def analyzeSingleFile(fileName, outFile):
     outFile.write('test: ' + fileName + '\n')
     outFile.write('\n\n')
 
-    exif_info = get_exif(fileName)
-    print(exif_info)
+#    exif_info = get_exif(fileName)
+#    print(exif_info)
+
+    exif_info_labled = get_labeled_exif(fileName)
+#    print('--- labled------------------------')
+#    print(exif_info_labled)
+#    print('--- labled------------------------')
+
+
 
 
 
@@ -38,6 +68,9 @@ for line in fileList:
 
 fileList.close()
 outputFile.close()
+
+#print('\n--- TAGS')
+#print(TAGS)
 print('--- Python done')
 
 
