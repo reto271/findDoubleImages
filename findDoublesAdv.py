@@ -5,35 +5,25 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 
 
-def get_exif(filename):
-    image = Image.open(filename)
-    image.verify()
-    return image._getexif()
+def print_all_exif_tags():
+    print('\n--- TAGS')
+    for key, value in TAGS.items():
+        print('    ' + str(key) + '---' + str(value))
+    print('--- TAGS')
+
 
 def get_labeled_exif(fileName):
-    labeled = {}
 
-    exif = get_exif(fileName)
-    val = dir(exif)
-#    print(val)
 
     image = Image.open(fileName)
     exif_info = image._getexif()
     if exif_info is None:
-        print("No info!!!!!!!")
+        print("    No info!!!!!!!")
     else:
         for tag, value in exif_info.items():
-            #print(tag, value)
-            #labeled[TAGS.get(tag)] = value
-            #print(str(TAGS.get(tag)) + ' ::: ' + str(value))
             if ('Model' == TAGS.get(tag)) :
-                print('  Model: ' + str(value))
+                print('    Model: ' + str(value))
 
-
-#    for (key, val) in exif.items():
-#        labeled[TAGS.get(key)] = val
-#
-    return labeled
 
 
 
@@ -48,19 +38,14 @@ def analyzeSingleFile(fileName, outFile):
     outFile.write('test: ' + fileName + '\n')
     outFile.write('\n\n')
 
-#    exif_info = get_exif(fileName)
-#    print(exif_info)
-
     exif_info_labled = get_labeled_exif(fileName)
-#    print('--- labled------------------------')
-#    print(exif_info_labled)
-#    print('--- labled------------------------')
 
 
 
 
 
 # Reads the file and process it line by line
+print('')
 fileList = open('out_dir/fileList.txt')
 outputFile = open('out_dir/fileData.txt', 'w')
 for line in fileList:
@@ -69,18 +54,11 @@ for line in fileList:
 fileList.close()
 outputFile.close()
 
-#print('\n--- TAGS')
-#print(TAGS)
+#print_all_exif_tags()
 print('--- Python done')
 
 
 
-# #while read FILE ; do
-# #    echo "File: ${FILE}"
-# #    FILENAME=$(basename -- "${FILE}")
-# #    ACTUAL_FILE_SIZE=$(du -b "${FILE}" | cut -f 1)
-# #    #echo "ACTUAL_FILE_SIZE: ${ACTUAL_FILE_SIZE}"
-# #
 # #    # exif:Model: NIKON D5100
 # #    # signature: 9d473e2c68ab78cc718deb2a06d7fae31d83e09fae812ef8c760ac012d701694
 # #    # Geometry: 4928x3264+0+0
@@ -92,18 +70,3 @@ print('--- Python done')
 # #    RESOLUTION=$(identify -verbose "${FILE}" | grep "^  Resolution:")
 # #    IMG_SIZE=$(identify -verbose "${FILE}" | grep "Print size:")
 # #
-# #    MODEL=$(echo "${MODEL}" | awk -F": " '{ print $2 }')
-# #    SIGNATURE=$(echo "${SIGNATURE}" | awk -F": " '{ print $2 }')
-# #    GEOMETRY=$(echo "${GEOMETRY}" | awk -F": " '{ print $2 }')
-# #    RESOLUTION=$(echo "${RESOLUTION}" | awk -F": " '{ print $2 }')
-# #    IMG_SIZE=$(echo "${IMG_SIZE}" | awk -F": " '{ print $2 }')
-# #
-# #    # echo "MODEL      : ${MODEL}"
-# #    # echo "SIGNATURE  : ${SIGNATURE}"
-# #    # echo "GEOMETRY   : ${GEOMETRY}"
-# #    # echo "RESOLUTION : ${RESOLUTION}"
-# #    # echo "IMG_SIZE   : ${IMG_SIZE}"
-# #
-# #    echo "${FILENAME} # ${ACTUAL_FILE_SIZE} # ${SIGNATURE} # ${GEOMETRY} # ${RESOLUTION} # ${IMG_SIZE} # ${MODEL} # ${FILE}" | tee -a ${FILE_INFO_LIST}
-# #done < ${FILE_LIST}
-#
