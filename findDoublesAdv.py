@@ -59,6 +59,7 @@ class PicturePropertyLogger:
     def __analyzeSingleFile(self, fileName, outFile):
         """ Analyzes a single file
         """
+        print('--> ' + fileName)
         try:
             image = Image.open(fileName)
             try:
