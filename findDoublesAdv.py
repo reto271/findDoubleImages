@@ -15,9 +15,13 @@ class PicturePropertyLogger:
         self.m_outFile = outFile
 
     def registerTag(self, tagName):
+        registered = False
         for key, value in TAGS.items():
             if (tagName == str(value)) :
                 self.m_tagFilter.append(key)
+                registered = True
+        if (False == registered) :
+            print('Tag not found: ' + tagName)
 
     def processFileList(self):
         if (None == self.m_picFileList):
@@ -40,7 +44,7 @@ class PicturePropertyLogger:
                 line = tagName
             else:
                 line = line + ';' + tagName
-        line = line + '\n'
+        line = line + ';FileName;Directory\n'
         outputFile.write(line)
 
         # Process all files
@@ -70,6 +74,8 @@ class PicturePropertyLogger:
                         tagFound = True
                 if (False == tagFound) :
                     line = line + ';'
+            line = line + ';' + os.path.basename(fileName)
+            line = line + ';' + os.path.dirname(fileName)
             line = line[1:] + '\n'
             outFile.write(line)
 
@@ -88,11 +94,20 @@ def print_all_exif_tags(tagFileName):
 logger = PicturePropertyLogger()
 logger.setPictureFileList('out_dir/fileList.txt', 'out_dir/fileData.csv')
 logger.registerTag('Model')
-logger.registerTag('DateTime')            # 306---DateTime
 logger.registerTag('DateTimeOriginal')    # 36867---DateTimeOriginal
-logger.registerTag('DateTimeDigitized')   # 36868---DateTimeDigitized
-logger.registerTag('PreviewDateTime')     # 50971---PreviewDateTime
-
+#logger.registerTag('XResolution')    # 282---XResolution
+#logger.registerTag('YResolution')    # 283---YResolution
+#logger.registerTag('ImageWidth')    # 256---ImageWidth
+#logger.registerTag('ImageLength')    # 257---ImageLength
+#logger.registerTag('CellWidth')    #     264---CellWidth
+#logger.registerTag('CellLength')    #     265---CellLength
+#logger.registerTag('SMinSampleValue')
+#logger.registerTag('RelatedImageWidth')
+#logger.registerTag('RelatedImageLength')
+logger.registerTag('ExifImageWidth')
+logger.registerTag('ExifImageHeight')
+#logger.registerTag('Make')
+#logger.registerTag('Orientation')
 logger.processFileList()
 
 # Print all available tags
