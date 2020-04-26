@@ -61,24 +61,27 @@ class PicturePropertyLogger:
         """
         try:
             image = Image.open(fileName)
-            exif_info = image._getexif()
-            if exif_info is None:
-                print('FileName: ' + fileName + ' -> No info')
-            else:
-                line = ''
-                for logTag in self.m_tagFilter:
-                    tagFound = False
-                    for tag, value in exif_info.items():
-                        if (logTag == tag) :
-                            # print(str(TAGS.get(logTag)) + '  : ' + str(value))
-                            line = line + ';' + str(value)
-                            tagFound = True
-                    if (False == tagFound) :
-                        line = line + ';'
-                line = line + ';' + os.path.basename(fileName)
-                line = line + ';' + os.path.dirname(fileName)
-                line = line[1:] + '\n'
-                outFile.write(line)
+            try:
+                exif_info = image._getexif()
+                if exif_info is None:
+                    print('FileName: ' + fileName + ' -> No info')
+                else:
+                    line = ''
+                    for logTag in self.m_tagFilter:
+                        tagFound = False
+                        for tag, value in exif_info.items():
+                            if (logTag == tag) :
+                                # print(str(TAGS.get(logTag)) + '  : ' + str(value))
+                                line = line + ';' + str(value)
+                                tagFound = True
+                        if (False == tagFound) :
+                            line = line + ';'
+                    line = line + ';' + os.path.basename(fileName)
+                    line = line + ';' + os.path.dirname(fileName)
+                    line = line[1:] + '\n'
+                    outFile.write(line)
+            except AttributeError:
+                print('FileName: ' + fileName + ' -> No attributes file')
         except IOError:
             print('FileName: ' + fileName + ' -> No valid file')
 # --- end class PicturePropertyLogger -----------------------------------------------------------
