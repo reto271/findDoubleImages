@@ -83,6 +83,8 @@ class PicturePropertyLogger:
                     outFile.write(line)
             except AttributeError:
                 print('FileName: ' + fileName + ' -> No attributes file')
+            except ValueError:
+                print('FileName: ' + fileName + ' -> ValueError')
         except IOError:
             print('FileName: ' + fileName + ' -> No valid file')
 # --- end class PicturePropertyLogger -----------------------------------------------------------
