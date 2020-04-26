@@ -41,7 +41,7 @@ echo "--- Python Info"
 which python3
 python3 --version
 
-echo "--- Analyse Files"
+echo "--- Analyze Files"
 #python3 -d -v findDoublesAdv.py
 python3 findDoublesAdv.py
 

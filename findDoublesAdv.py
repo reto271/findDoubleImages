@@ -17,7 +17,6 @@ class PicturePropertyLogger:
     def registerTag(self, tagName):
         for key, value in TAGS.items():
             if (tagName == str(value)) :
-                print('register:    ' + str(key) + '---' + str(value))
                 self.m_tagFilter.append(key)
 
     def processFileList(self):
@@ -30,7 +29,6 @@ class PicturePropertyLogger:
                self. __processFileList()
 
     def __processFileList(self):
-        print('')
         fileList = open(self.m_picFileList)
         outputFile = open(self.m_outFile, 'w')
 
@@ -57,18 +55,17 @@ class PicturePropertyLogger:
     def __analyzeSingleFile(self, fileName, outFile):
         """ Analyzes a single file
         """
-        print("FileName: " + fileName)
         image = Image.open(fileName)
         exif_info = image._getexif()
         if exif_info is None:
-            print("    No info!!!!!!!")
+            print('FileName: ' + fileName + ' -> No info')
         else:
             line = ''
             for logTag in self.m_tagFilter:
                 tagFound = False
                 for tag, value in exif_info.items():
                     if (logTag == tag) :
-                        print(str(TAGS.get(logTag)) + '  : ' + str(value))
+                        # print(str(TAGS.get(logTag)) + '  : ' + str(value))
                         line = line + ';' + str(value)
                         tagFound = True
                 if (False == tagFound) :
@@ -78,11 +75,12 @@ class PicturePropertyLogger:
 
 
 ''' Prints all available tags in the exif structure '''
-def print_all_exif_tags():
-    print('\n--- TAGS -------------------------------------------------------')
+def print_all_exif_tags(tagFileName):
+    outputFile = open(tagFileName, 'w')
+    outputFile.write('Available exif - TAGS\n')
     for key, value in TAGS.items():
-        print('    ' + str(key) + '---' + str(value))
-    print('\n--- TAGS -------------------------------------------------------')
+        outputFile.write('    ' + str(key) + '---' + str(value) + '\n')
+    outputFile.close()
 
 
 
@@ -98,7 +96,8 @@ logger.registerTag('PreviewDateTime')     # 50971---PreviewDateTime
 logger.processFileList()
 
 # Print all available tags
-# print_all_exif_tags()
+print_all_exif_tags('out_dir/availableProperties.txt')
+
 print('--- Python done')
 
 
