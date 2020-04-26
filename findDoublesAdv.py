@@ -59,25 +59,29 @@ class PicturePropertyLogger:
     def __analyzeSingleFile(self, fileName, outFile):
         """ Analyzes a single file
         """
-        image = Image.open(fileName)
-        exif_info = image._getexif()
-        if exif_info is None:
-            print('FileName: ' + fileName + ' -> No info')
-        else:
-            line = ''
-            for logTag in self.m_tagFilter:
-                tagFound = False
-                for tag, value in exif_info.items():
-                    if (logTag == tag) :
-                        # print(str(TAGS.get(logTag)) + '  : ' + str(value))
-                        line = line + ';' + str(value)
-                        tagFound = True
-                if (False == tagFound) :
-                    line = line + ';'
-            line = line + ';' + os.path.basename(fileName)
-            line = line + ';' + os.path.dirname(fileName)
-            line = line[1:] + '\n'
-            outFile.write(line)
+        try:
+            image = Image.open(fileName)
+            exif_info = image._getexif()
+            if exif_info is None:
+                print('FileName: ' + fileName + ' -> No info')
+            else:
+                line = ''
+                for logTag in self.m_tagFilter:
+                    tagFound = False
+                    for tag, value in exif_info.items():
+                        if (logTag == tag) :
+                            # print(str(TAGS.get(logTag)) + '  : ' + str(value))
+                            line = line + ';' + str(value)
+                            tagFound = True
+                    if (False == tagFound) :
+                        line = line + ';'
+                line = line + ';' + os.path.basename(fileName)
+                line = line + ';' + os.path.dirname(fileName)
+                line = line[1:] + '\n'
+                outFile.write(line)
+        except IOError:
+            print('FileName: ' + fileName + ' -> No valid file')
+# --- end class PicturePropertyLogger -----------------------------------------------------------
 
 
 ''' Prints all available tags in the exif structure '''
