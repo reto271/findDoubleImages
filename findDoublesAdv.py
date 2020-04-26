@@ -5,56 +5,100 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 
 
+class PicturePropertyLogger:
+    m_picFileList = None
+    m_outFile = None
+    m_tagFilter = []
+
+    def setPictureFileList(self, picFileList, outFile):
+        self.m_picFileList = picFileList
+        self.m_outFile = outFile
+
+    def registerTag(self, tagName):
+        for key, value in TAGS.items():
+            if (tagName == str(value)) :
+                print('register:    ' + str(key) + '---' + str(value))
+                self.m_tagFilter.append(key)
+
+    def processFileList(self):
+        if (None == self.m_picFileList):
+            print('No list file registered')
+        else:
+            if (0 == len(self.m_tagFilter)):
+                print('No tags registered')
+            else:
+               self. __processFileList()
+
+    def __processFileList(self):
+        print('')
+        fileList = open(self.m_picFileList)
+        outputFile = open(self.m_outFile, 'w')
+
+        # Add header line to file
+        line = ''
+        for logTag in self.m_tagFilter:
+            tagName =  TAGS.get(logTag)
+            if (0 == len(line)):
+                line = tagName
+            else:
+                line = line + ';' + tagName
+        line = line + '\n'
+        outputFile.write(line)
+
+        # Process all files
+        for line in fileList:
+            self.__analyzeSingleFile(line[:-1], outputFile)
+
+        # Cleanup
+        fileList.close()
+        outputFile.close()
+
+
+    def __analyzeSingleFile(self, fileName, outFile):
+        """ Analyzes a single file
+        """
+        print("FileName: " + fileName)
+        image = Image.open(fileName)
+        exif_info = image._getexif()
+        if exif_info is None:
+            print("    No info!!!!!!!")
+        else:
+            line = ''
+            for logTag in self.m_tagFilter:
+                tagFound = False
+                for tag, value in exif_info.items():
+                    if (logTag == tag) :
+                        print(str(TAGS.get(logTag)) + '  : ' + str(value))
+                        line = line + ';' + str(value)
+                        tagFound = True
+                if (False == tagFound) :
+                    line = line + ';'
+            line = line[1:] + '\n'
+            outFile.write(line)
+
+
+''' Prints all available tags in the exif structure '''
 def print_all_exif_tags():
-    print('\n--- TAGS')
+    print('\n--- TAGS -------------------------------------------------------')
     for key, value in TAGS.items():
         print('    ' + str(key) + '---' + str(value))
-    print('--- TAGS')
-
-
-def get_labeled_exif(fileName):
-
-
-    image = Image.open(fileName)
-    exif_info = image._getexif()
-    if exif_info is None:
-        print("    No info!!!!!!!")
-    else:
-        for tag, value in exif_info.items():
-            if ('Model' == TAGS.get(tag)) :
-                print('    Model: ' + str(value))
-
-
-
-
-
-
-def analyzeSingleFile(fileName, outFile):
-    """ Analyzes a single file
-    """
-    print("FileName: " + fileName)
-
-    img = Image.open(fileName)
-    outFile.write('test: ' + fileName + '\n')
-    outFile.write('\n\n')
-
-    exif_info_labled = get_labeled_exif(fileName)
-
-
+    print('\n--- TAGS -------------------------------------------------------')
 
 
 
 # Reads the file and process it line by line
-print('')
-fileList = open('out_dir/fileList.txt')
-outputFile = open('out_dir/fileData.txt', 'w')
-for line in fileList:
-    analyzeSingleFile(line[:-1], outputFile)
+logger = PicturePropertyLogger()
+logger.setPictureFileList('out_dir/fileList.txt', 'out_dir/fileData.csv')
+logger.registerTag('Model')
+logger.registerTag('DateTime')            # 306---DateTime
+logger.registerTag('DateTimeOriginal')    # 36867---DateTimeOriginal
+logger.registerTag('DateTimeDigitized')   # 36868---DateTimeDigitized
+logger.registerTag('PreviewDateTime')     # 50971---PreviewDateTime
 
-fileList.close()
-outputFile.close()
+logger.processFileList()
 
-#print_all_exif_tags()
+# Print all available tags
+# print_all_exif_tags()
 print('--- Python done')
 
 
