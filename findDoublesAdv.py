@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 import os
 from PIL import Image
 from PIL.ExifTags import TAGS
@@ -54,7 +55,6 @@ class PicturePropertyLogger:
         # Cleanup
         fileList.close()
         outputFile.close()
-
 
     def __analyzeSingleFile(self, fileName, outFile):
         """ Analyzes a single file
@@ -118,17 +118,3 @@ logger.processFileList()
 print_all_exif_tags('out_dir/availableProperties.txt')
 
 print('--- Python done')
-
-
-
-# #    # exif:Model: NIKON D5100
-# #    # signature: 9d473e2c68ab78cc718deb2a06d7fae31d83e09fae812ef8c760ac012d701694
-# #    # Geometry: 4928x3264+0+0
-# #    # Resolution: 300x300
-# #    # Print size: 16.4267x10.88
-# #    MODEL=$(identify -verbose "${FILE}" | grep "exif:Model:")
-# #    SIGNATURE=$(identify -verbose "${FILE}" | grep "signature:")
-# #    GEOMETRY=$(identify -verbose "${FILE}" | grep "Geometry:")
-# #    RESOLUTION=$(identify -verbose "${FILE}" | grep "^  Resolution:")
-# #    IMG_SIZE=$(identify -verbose "${FILE}" | grep "Print size:")
-# #
