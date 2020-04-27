@@ -33,7 +33,14 @@ find ${SEARCH_PATH} -iname "*.jpeg" > ${FILE_LIST}
 find ${SEARCH_PATH} -iname "*.jpg" >> ${FILE_LIST}
 
 echo "--- Remove pics out of scope, e.g. e-mail box"
-cat "${FILE_LIST}" | grep -v "/volume1/Reto/Mail/V2/" | grep -v "@eaDir" > ${FILE_LIST}.2
+cp "${FILE_LIST}" "${FILE_LIST}.all"
+cat "${FILE_LIST}" | \
+    grep -v "^/volume1/photo/all/" | \
+    grep -v "^/volume1/Reto/Mail/" | \
+    grep -v "^/volume1/zSync/DataReto/MailBackup/" | \
+    grep -v "^/volume1/Reto/mailBackup/" | \
+    grep -v "/iTunes/iTunes Music/" | \
+    grep -v "@eaDir" > ${FILE_LIST}.2
 mv ${FILE_LIST}.2 ${FILE_LIST}
 
 
