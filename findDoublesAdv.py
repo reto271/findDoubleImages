@@ -59,12 +59,12 @@ class PicturePropertyLogger:
     def __analyzeSingleFile(self, fileName, outFile):
         """ Analyzes a single file
         """
-        print('--> ' + fileName)
+        #print('Process file: ' + fileName)
         try:
             image = Image.open(fileName)
             exif_info = image._getexif()
             if exif_info is None:
-                print('FileName: ' + fileName + ' -> No info')
+                print('FileName: ' + fileName + ' -> No info found')
             else:
                 line = ''
                 for logTag in self.m_tagFilter:
@@ -83,7 +83,7 @@ class PicturePropertyLogger:
         except AttributeError:
             print('FileName: ' + fileName + ' -> No attributes file')
         except ValueError:
-            print('FileName: ' + fileName + ' -> ValueError')
+            print('FileName: ' + fileName + ' -> Value error')
         except IOError:
             print('FileName: ' + fileName + ' -> No valid file')
 # --- end class PicturePropertyLogger -----------------------------------------------------------
