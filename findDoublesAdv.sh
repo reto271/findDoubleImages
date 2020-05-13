@@ -54,4 +54,5 @@ python3 findDoublesAdv.py
 
 echo "--- done"
 
+# Return to the original directory
 popd > /dev/null
