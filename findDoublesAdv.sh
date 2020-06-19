@@ -28,7 +28,7 @@ echo "--- Cleanup and prepare"
 rm -rf  ${OUT_DIR}
 mkdir -p ${OUT_DIR}
 
-echo "--- Find all jpg and jpeg"
+echo "--- Search all jpg and jpeg"
 find ${SEARCH_PATH} -iname "*.jpeg" > ${FILE_LIST}
 find ${SEARCH_PATH} -iname "*.jpg" >> ${FILE_LIST}
 
@@ -48,7 +48,7 @@ echo "--- Python Info"
 which python3
 python3 --version
 
-echo "--- Analyze Files"
+echo "--- Get picture properties"
 #python3 -d -v findDoublesAdv.py
 python3 findDoublesAdv.py
 
