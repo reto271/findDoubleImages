@@ -23,8 +23,13 @@ python3 --version
 
 echo "--- Analyze Files"
 python3 analyzeFilesAdv.py
+feedback=$?
 
-echo "--- done"
+if [ 0 -eq ${feedback} ] ; then
+    echo "--- done"
+else
+    echo "--- failed"
+fi
 
 # Return to the original directory
 popd > /dev/null

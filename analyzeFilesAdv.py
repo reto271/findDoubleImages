@@ -7,47 +7,28 @@ import operator
 #from datetime import datetime
 
 DATA_FILE_LOCATION = './out_dir/'
-fileName = 'fileDataClean.csv'
+INPUT_FILE = 'fileDataClean.csv'
+RESULT_FILE = 'sortedData.csv'
+
+with open(DATA_FILE_LOCATION + INPUT_FILE) as inputFile:
+    dataList = csv.reader(inputFile, delimiter=';')
+    header = next(dataList)
+    sortedList=dataList
+
+    # Define sort order
+    sortedList = sorted(sortedList, key=lambda row: (row[4]))  # FileName
+    sortedList = sorted(sortedList, key=lambda row: (row[0]))  # Model
+    sortedList = sorted(sortedList, key=lambda row: (row[2]))  # ExifImageWidth
+    sortedList = sorted(sortedList, key=lambda row: (row[3]))  # ExifImageHeight
+    sortedList = sorted(sortedList, key=lambda row: (row[1]))  # DateTimeOriginal
+    #sortedList = sorted(sortedList, key=lambda row: (row[4]))  # Directory
 
 
+    with open(DATA_FILE_LOCATION + RESULT_FILE, 'w') as csvFile:
+        csvwriter = csv.writer(csvFile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        csvwriter.writerow(header)
+        for row in sortedList:
+            csvwriter.writerow(row)
 
-print('hello')
-
-#with open(DATA_FILE_LOCATION + fileName) as csvDataFile:
-#    csvReader = csv.DictReader(csvDataFile)
-#    cnt = 0
-#    for row in csvReader:
-#        if (cnt < 20):
-#            print('cnt: ' + str(cnt))
-#            print(row)
-#            cnt = cnt + 1
-
-
-with open('./TestData/test01.csv') as f:
-    reader = csv.reader(f, delimiter=';')
-    print('------------------------')
-    for row in reader:
-        print(row)
-
-with open('./TestData/test01.csv') as f:
-    reader = csv.DictReader(f, delimiter=';')
-    print('------------------------')
-    for row in reader:
-        print(row['DateTimeOriginal'], row['ExifImageHeight'])
-
-with open('./TestData/test01.csv') as f:
-    reader = csv.reader(f, delimiter=';')
-    print('------------------------')
-    sortedList = sorted(reader, key=operator.itemgetter(2))
-    for row in sortedList:
-        print(row)
-    print('------------------------')
-
-
-with open('./TestData/test01.csv') as f:
-    reader = csv.reader(f, delimiter=';')
-    print('------------------------')
-    scores = sorted(reader, key=lambda row: (row[1], row[0]))
-    for row in scores:
-        print(row)
-    print('------------------------')
+csvFile.close()
+inputFile.close()

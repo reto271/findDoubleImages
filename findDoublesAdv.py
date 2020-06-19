@@ -71,7 +71,9 @@ class PicturePropertyLogger:
                     tagFound = False
                     for tag, value in exif_info.items():
                         if (logTag == tag) :
-                            # print(str(TAGS.get(logTag)) + '  : ' + str(value))
+                            # Remove , and ; form tagValue
+                            value.replace(',', '_')
+                            value.replace(';', '_')
                             line = line + ';' + str(value)
                             tagFound = True
                     if (False == tagFound) :
