@@ -45,7 +45,7 @@ class PicturePropertyLogger:
                 line = tagName
             else:
                 line = line + ';' + tagName
-        line = line + ';FileName;Directory\n'
+        line = line + ';FileName;Directory;FileSize\n'
         outputFile.write(line)
 
         # Process all files
@@ -81,6 +81,7 @@ class PicturePropertyLogger:
                         line = line + ';'
                 line = line + ';' + os.path.basename(fileName)
                 line = line + ';' + os.path.dirname(fileName)
+                line = line + ';' + str(os.path.getsize(fileName))
                 line = line[1:] + '\n'
                 outFile.write(line)
         except AttributeError:
