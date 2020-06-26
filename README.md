@@ -17,5 +17,5 @@ There are several possibilities to analyze the output data (out_dir)
 
 _Eventually copy the out_dir to a location where more computation power is available than on a NAS._
 
-* Run the 'analyzeFiles.sh'. Make sure the out_dir is next to the script. **(Currently not update)**
-* Analyze 'out_dir/fileData.csv' manually by using Excel, Libre Office, ...
+* Run the 'analyzeFiles.sh'. Make sure the out_dir is next to the script.
+* Analyze the files 'fileData.csv', 'sortedData.csv' and 'doublePicsList.csv' in the out_dir manually by using Libre Office, Excel, ...
