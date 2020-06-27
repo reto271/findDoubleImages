@@ -39,6 +39,7 @@ cat "${FILE_LIST}" | \
     grep -v "^/volume1/Reto/Mail/" | \
     grep -v "^/volume1/zSync/DataReto/MailBackup/" | \
     grep -v "^/volume1/Reto/mailBackup/" | \
+    grep -v "^/volume1/@docker/" | \
     grep -v "/iTunes/iTunes Music/" | \
     grep -v "@eaDir" > ${FILE_LIST}.2
 mv ${FILE_LIST}.2 ${FILE_LIST}
